@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ExpenseTrackerWebAPI.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace ExpenseTrackerWebAPI.DataContext
@@ -7,10 +8,10 @@ namespace ExpenseTrackerWebAPI.DataContext
     {
         public ExpenseTrackerDataContext(DbContextOptions<ExpenseTrackerDataContext> options) : base(options) { }
 
-        public DbSet<ExpenseCategoryModel> ExpenseCategories { get; set; }
-        public DbSet<ExpenseModel> Expenses { get; set; }
-        public DbSet<IncomeModel> Income { get; set; }
-        public DbSet<IncomeTypeModel> IncomeTypes { get; set; }
-        public DbSet<LocationModel> Location { get; set; }
+        public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
+        public DbSet<Income> Income { get; set; }
+        public DbSet<IncomeType> IncomeTypes { get; set; }
+        public DbSet<Location> Location { get; set; }
     }
 }

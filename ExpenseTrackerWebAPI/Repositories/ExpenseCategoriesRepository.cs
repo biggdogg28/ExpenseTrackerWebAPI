@@ -1,6 +1,6 @@
 ﻿namespace ExpenseTrackerWebAPI.Repositories
 {
-    public class ExpenseCategoriesRepository
+    public class ExpenseCategoriesRepository : IExpenseCategoriesRepository
     {
     }
 }

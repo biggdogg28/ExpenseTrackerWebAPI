@@ -1,6 +1,6 @@
 ﻿namespace ExpenseTrackerWebAPI.Services
 {
-    public class IncomeTypesService
+    public class IncomeTypesService : IIncomeTypesService
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ExpenseTrackerWebAPI.Services
 {
-    public class ExpensesServices
+    public class ExpensesServices : IExpensesServices
     {
     }
 }
