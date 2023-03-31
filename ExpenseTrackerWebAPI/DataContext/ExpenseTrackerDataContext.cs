@@ -13,5 +13,6 @@ namespace ExpenseTrackerWebAPI.DataContext
         public DbSet<Income> Income { get; set; }
         public DbSet<IncomeType> IncomeTypes { get; set; }
         public DbSet<Location> Location { get; set; }
+        public DbSet<Totals> Totals { get; set; }
     }
 }
