@@ -7,5 +7,6 @@ namespace ExpenseTrackerWebAPI.Repositories
 {
     public interface ITotalsRepository
     {
+
     }
 }

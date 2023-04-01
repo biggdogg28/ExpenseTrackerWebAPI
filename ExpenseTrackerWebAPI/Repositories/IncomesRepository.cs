@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using ExpenseTrackerWebAPI.DataContext;
 using ExpenseTrackerWebAPI.DTOs;
+using ExpenseTrackerWebAPI.DTOs.CreateUpdateObjects;
+using ExpenseTrackerWebAPI.DTOs.PatchObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTrackerWebAPI.Repositories
 {
