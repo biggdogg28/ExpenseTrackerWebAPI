@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ExpenseTrackerWebAPI.DTOs.PatchObjects
 {
     public class PatchIncome
     {
         [Key]
+        [JsonIgnore]
         public Guid IdIncome { get; set; }
         public string? Name { get; set; }
         public decimal Amount { get; set; }

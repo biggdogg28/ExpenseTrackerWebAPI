@@ -8,10 +8,10 @@ namespace ExpenseTrackerWebAPI.DataContext
     {
         public ExpenseTrackerDataContext(DbContextOptions<ExpenseTrackerDataContext> options) : base(options) { }
 
-        public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
+        public DbSet<ExpenseCategory> ExpenseCategory { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Income> Income { get; set; }
-        public DbSet<IncomeType> IncomeTypes { get; set; }
+        public DbSet<IncomeType> IncomeType { get; set; }
         public DbSet<Location> Location { get; set; }
         public DbSet<Totals> Totals { get; set; }
     }

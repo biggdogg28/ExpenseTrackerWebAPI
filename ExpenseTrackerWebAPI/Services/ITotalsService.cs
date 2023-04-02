@@ -4,7 +4,7 @@ using ExpenseTrackerWebAPI.DTOs;
 
 namespace ExpenseTrackerWebAPI.Services
 {
-    public interface ITotalsSerivce
+    public interface ITotalsService
     {
         public Task<IEnumerable<Totals>> GetTotalAsync();
         public Task<Totals> GetTotalByIdAsync(Guid id);

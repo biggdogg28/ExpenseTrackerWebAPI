@@ -5,15 +5,19 @@ using ExpenseTrackerWebAPI.Repositories;
 
 namespace ExpenseTrackerWebAPI.Services
 {
-    public class TotalsSerivce
+    public class TotalsService : ITotalsService
     {
         private readonly ITotalsRepository _totalsRepository;
-        public TotalsSerivce(ITotalsRepository totalsRepository)
+        private readonly IExpensesRepository _expensesRepository;
+        private readonly IIncomesRepository _incomesRepository;
+        public TotalsService(ITotalsRepository totalsRepository, IExpensesRepository expensesRepository, IIncomesRepository incomesRepository)
         {
             _totalsRepository = totalsRepository;
+            _expensesRepository= expensesRepository;
+            _incomesRepository= incomesRepository;
         }
 
-        public async Task<IEnumerable<Totals>> GetTotalsAsync()
+        public async Task<IEnumerable<Totals>> GetTotalAsync()
         {
             return await _totalsRepository.GetTotalAsync();
         }

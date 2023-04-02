@@ -20,18 +20,18 @@ namespace ExpenseTrackerWebAPI.Repositories
         }
         public async Task<IEnumerable<IncomeType>> GetIncomeTypeAsync()
         {
-            return await _context.IncomeTypes.ToListAsync();
+            return await _context.IncomeType.ToListAsync();
         }
 
         public async Task<IncomeType> GetIncomeTypeByIdAsync(Guid id)
         {
-            return await _context.IncomeTypes.SingleOrDefaultAsync(i => i.IncomeTypeID == id);
+            return await _context.IncomeType.SingleOrDefaultAsync(i => i.IncomeTypeID == id);
         }
 
         public async Task CreateIncomeTypeAsync(IncomeType incomeType)
         {
             incomeType.IncomeTypeID = Guid.NewGuid();
-            _context.IncomeTypes.Add(incomeType);
+            _context.IncomeType.Add(incomeType);
             await _context.SaveChangesAsync();
         }
 
@@ -43,7 +43,7 @@ namespace ExpenseTrackerWebAPI.Repositories
                 return false;
             }
 
-            _context.IncomeTypes.Remove(incomeType);
+            _context.IncomeType.Remove(incomeType);
             _context.SaveChanges();
             return true;
         }
@@ -58,7 +58,7 @@ namespace ExpenseTrackerWebAPI.Repositories
             var incomeTypeUpdated = _mapper.Map<IncomeType>(incomeType);
             incomeTypeUpdated.IncomeTypeID = id;
 
-            _context.IncomeTypes.Update(incomeTypeUpdated);
+            _context.IncomeType.Update(incomeTypeUpdated);
             await _context.SaveChangesAsync();
             return incomeType;
         }
@@ -66,7 +66,7 @@ namespace ExpenseTrackerWebAPI.Repositories
         //helper method for the Update method
         private async Task<bool> ExistIncomeTypeAsync(Guid id)
         {
-            return await _context.IncomeTypes.CountAsync(l => l.IncomeTypeID == id) > 0;
+            return await _context.IncomeType.CountAsync(l => l.IncomeTypeID == id) > 0;
         }
 
         public async Task<PatchIncomeType> UpdatePartiallyIncomeTypeAsync(Guid id, PatchIncomeType incomeType)
@@ -83,7 +83,7 @@ namespace ExpenseTrackerWebAPI.Repositories
                 incomeTypeFromDb.Name = incomeType.Name;
             }
 
-            _context.IncomeTypes.Update(incomeTypeFromDb);
+            _context.IncomeType.Update(incomeTypeFromDb);
             await _context.SaveChangesAsync();
             return incomeType;
         }

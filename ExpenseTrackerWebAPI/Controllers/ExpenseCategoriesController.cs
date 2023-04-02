@@ -12,71 +12,72 @@ namespace ExpenseTrackerWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ExpensesController : ControllerBase
+    public class ExpenseCategoriesController : ControllerBase
     {
-        private readonly IExpensesService _expensesService;
-        private readonly ILogger<ExpensesController> _logger;
+        private readonly IExpenseCategoriesService _expenseCategoriesService;
+        private readonly ILogger<ExpenseCategoriesController> _logger;
 
-        public ExpensesController(IExpensesService expensesService, ILogger<ExpensesController> logger)
+        public ExpenseCategoriesController(IExpenseCategoriesService expenseCategoriesService, ILogger<ExpenseCategoriesController> logger)
         {
-            _expensesService = expensesService;
+            _expenseCategoriesService = expenseCategoriesService;
             _logger = logger;
         }
+
         [HttpGet]
-        public async Task<IActionResult> GetAllExpenseAsync()
+        public async Task<IActionResult> GetAllExpenseCategoriesAsync()
         {
             try
             {
-                _logger.LogInformation("GetExpense started.");
+                _logger.LogInformation("GetExpenseCategories started.");
 
-                var Expense = await _expensesService.GetExpenseAsync();
+                var expenseCategory = await _expenseCategoriesService.GetExpenseCategoryAsync();
 
-                if (Expense == null || !Expense.Any())
+                if (expenseCategory == null || !expenseCategory.Any())
                 {
                     return StatusCode((int)HttpStatusCode.NoContent, ErrorMessagesEnum.NoElementFound);
                 }
-                return Ok(Expense);
+                return Ok(expenseCategory);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"GetExpense error: {ex.Message}");
+                _logger.LogError($"GetLocations error: {ex.Message}");
                 return StatusCode((int)(HttpStatusCode.InternalServerError));
             }
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetExpenseAsync([FromRoute] Guid id)
+        public async Task<IActionResult> GetExpenseCategoryAsync([FromRoute] Guid id)
         {
             try
             {
                 _logger.LogInformation("GetExpenseById started");
-                var Expense = await _expensesService.GetExpenseByIdAsync(id);
-                if (Expense == null)
+                var expenseCategories = await _expenseCategoriesService.GetExpenseCategoryByIdAsync(id);
+                if (expenseCategories == null)
                 {
                     return NotFound(ErrorMessagesEnum.NoElementFound);
                 }
-                return Ok(Expense);
+                return Ok(expenseCategories);
 
             }
             catch (Exception ex)
             {
-                _logger.LogError($"GetExpense error: {ex.Message}");
+                _logger.LogError($"GetExpenseCategories error: {ex.Message}");
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
         [HttpPost]
 
-        public async Task<IActionResult> PostExpenseAsync([FromBody] Expense Expense)
+        public async Task<IActionResult> PostExpenseCategoryAsync([FromBody] ExpenseCategory expenseCategory)
         {
             try
             {
-                _logger.LogInformation("CreateExpense started");
-                if (Expense == null)
+                _logger.LogInformation("GetExpenseCategories started");
+                if (expenseCategory == null)
                 {
                     return BadRequest(ErrorMessagesEnum.BadRequest);
                 }
-                await _expensesService.CreateExpenseAsync(Expense);
+                await _expenseCategoriesService.CreateExpenseCategoryAsync(expenseCategory);
                 return Ok(SuccessMessagesEnum.ElementSuccessfullyAdded);
             }
             catch (ModelValidationException ex)
@@ -93,12 +94,12 @@ namespace ExpenseTrackerWebAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteExpenseAsync([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteExpenseCategoryAsync([FromRoute] Guid id)
         {
             try
             {
-                _logger.LogInformation("Delete Expense Started");
-                bool result = await _expensesService.DeleteExpenseByIdAsync(id);
+                _logger.LogInformation("Delete ExpenseCategories Started");
+                bool result = await _expenseCategoriesService.DeleteExpenseCategoryByIdAsync(id);
                 if (result)
                 {
                     return Ok(SuccessMessagesEnum.ElementSuccessfullyDeleted);
@@ -113,18 +114,18 @@ namespace ExpenseTrackerWebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutExpense([FromRoute] Guid id, [FromBody] CreateUpdateExpense Expense)
+        public async Task<IActionResult> PutExpenseCategory([FromRoute] Guid id, [FromBody] CreateUpdateExpenseCategory expenseCategory)
         {
             try
             {
                 _logger.LogInformation("Update Started");
-                if (Expense == null)
+                if (expenseCategory == null)
                 {
                     return BadRequest(ErrorMessagesEnum.BadRequest);
                 }
 
-                CreateUpdateExpense updatedExpense = await _expensesService.UpdateExpenseAsync(id, Expense);
-                if (updatedExpense == null)
+                CreateUpdateExpenseCategory updatedexpenseCategories = await _expenseCategoriesService.UpdateExpenseCategoryAsync(id, expenseCategory);
+                if (updatedexpenseCategories == null)
                 {
                     return StatusCode((int)HttpStatusCode.NoContent, ErrorMessagesEnum.NoElementFound);
                 }
@@ -144,18 +145,18 @@ namespace ExpenseTrackerWebAPI.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchExpense([FromRoute] Guid id, [FromBody] PatchExpense Expense)
+        public async Task<IActionResult> PatchExpenseCategory([FromRoute] Guid id, [FromBody] PatchExpenseCategory expenseCategory)
         {
             try
             {
                 _logger.LogInformation("Update Started");
-                if (Expense == null)
+                if (expenseCategory == null)
                 {
                     return BadRequest(ErrorMessagesEnum.BadRequest);
                 }
 
-                PatchExpense updatedExpense = await _expensesService.UpdatePartiallyExpenseAsync(id, Expense);
-                if (updatedExpense == null)
+                PatchExpenseCategory updatedExpenseCategory = await _expenseCategoriesService.UpdatePartiallyExpenseCategoryAsync(id, expenseCategory);
+                if (updatedExpenseCategory == null)
                 {
                     return StatusCode((int)HttpStatusCode.NoContent, ErrorMessagesEnum.NoElementFound);
                 }
@@ -174,5 +175,4 @@ namespace ExpenseTrackerWebAPI.Controllers
             }
         }
     }
-
 }
