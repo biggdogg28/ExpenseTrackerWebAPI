@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
 using ExpenseTrackerWebAPI.DataContext;
+using ExpenseTrackerWebAPI.DTOs;
+using ExpenseTrackerWebAPI.DTOs.CreateUpdateObjects;
+using ExpenseTrackerWebAPI.DTOs.PatchObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTrackerWebAPI.Repositories
 {
@@ -13,6 +17,75 @@ namespace ExpenseTrackerWebAPI.Repositories
         {
             _context = context;
             _mapper = mapper;
+        }
+        public async Task<IEnumerable<ExpenseCategory>> GetExpenseCategoryAsync()
+        {
+            return await _context.ExpenseCategories.ToListAsync();
+        }
+
+        public async Task<ExpenseCategory> GetExpenseCategoryByIdAsync(Guid id)
+        {
+            return await _context.ExpenseCategories.SingleOrDefaultAsync(l => l.ExpenseCategoryID == id);
+        }
+
+        public async Task CreateExpenseCategoryAsync(ExpenseCategory expenseCategory)
+        {
+            expenseCategory.ExpenseCategoryID = Guid.NewGuid();
+            _context.ExpenseCategories.Add(expenseCategory);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> DeleteExpenseCategoryByIdAsync(Guid id)
+        {
+            ExpenseCategory expenseCategory = await GetExpenseCategoryByIdAsync(id);
+            if (expenseCategory == null)
+            {
+                return false;
+            }
+
+            _context.ExpenseCategories.Remove(expenseCategory);
+            _context.SaveChanges();
+            return true;
+        }
+
+        public async Task<CreateUpdateExpenseCategory> UpdateExpenseCategoryAsync(Guid id, CreateUpdateExpenseCategory expenseCategory)
+        {
+            if (!await ExistExpenseCategoriesAsync(id))
+            {
+                return null;
+            }
+
+            var expenseCategoryUpdated = _mapper.Map<ExpenseCategory>(expenseCategory);
+            expenseCategoryUpdated.ExpenseCategoryID = id;
+
+            _context.ExpenseCategories.Update(expenseCategoryUpdated);
+            await _context.SaveChangesAsync();
+            return expenseCategory;
+        }
+
+        //helper method for the Update method
+        private async Task<bool> ExistExpenseCategoriesAsync(Guid id)
+        {
+            return await _context.ExpenseCategories.CountAsync(e => e.ExpenseCategoryID == id) > 0;
+        }
+
+        public async Task<PatchExpenseCategory> UpdatePartiallyExpenseCategoryAsync(Guid id, PatchExpenseCategory expenseCategory)
+        {
+            var expenseCategoryFromDb = await GetExpenseCategoryByIdAsync(id);
+
+            if (expenseCategoryFromDb == null)
+            {
+                return null;
+            }
+
+            if (!string.IsNullOrEmpty(expenseCategory.Name) && expenseCategory.Name != expenseCategoryFromDb.Name)
+            {
+                expenseCategoryFromDb.Name = expenseCategory.Name;
+            }
+
+            _context.ExpenseCategories.Update(expenseCategoryFromDb);
+            await _context.SaveChangesAsync();
+            return expenseCategory;
         }
     }
 }
