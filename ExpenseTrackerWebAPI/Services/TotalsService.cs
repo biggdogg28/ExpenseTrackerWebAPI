@@ -38,7 +38,9 @@ namespace ExpenseTrackerWebAPI.Services
             var expenses = await _expensesRepository.GetExpenseAsync();
             decimal sumE = expenses.Sum(x => x.Amount);
             var balance = sumI - sumE;
-            //Totals newTotals = new Totals() { TotalExpenses = sumE, TotalIncome = sumI, Balance = balance };
+            newTotal.Balance= balance;
+            newTotal.TotalExpenses = sumE;
+            newTotal.TotalIncome = sumI;
 
             await _totalsRepository.CreateTotalAsync(newTotal);
         }
@@ -49,11 +51,27 @@ namespace ExpenseTrackerWebAPI.Services
 
         public async Task<CreateUpdateTotals> UpdateTotalAsync(Guid id, CreateUpdateTotals total)
         {
+            var incomes = await _incomesRepository.GetIncomeAsync();
+            decimal sumI = incomes.Sum(x => x.Amount);
+            var expenses = await _expensesRepository.GetExpenseAsync();
+            decimal sumE = expenses.Sum(x => x.Amount);
+            var balance = sumI - sumE;
+            total.Balance = balance;
+            total.TotalExpenses = sumE;
+            total.TotalIncome = sumI;
             return await _totalsRepository.UpdateTotalAsync(id, total);
         }
 
         public async Task<PatchTotals> UpdatePartiallyTotalAsync(Guid id, PatchTotals total)
         {
+            var incomes = await _incomesRepository.GetIncomeAsync();
+            decimal sumI = incomes.Sum(x => x.Amount);
+            var expenses = await _expensesRepository.GetExpenseAsync();
+            decimal sumE = expenses.Sum(x => x.Amount);
+            var balance = sumI - sumE;
+            total.Balance = balance;
+            total.TotalExpenses = sumE;
+            total.TotalIncome = sumI;
             return await _totalsRepository.UpdatePartiallyTotalAsync(id, total);
         }
     }

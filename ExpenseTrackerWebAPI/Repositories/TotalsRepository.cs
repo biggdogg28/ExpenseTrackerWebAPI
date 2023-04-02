@@ -31,6 +31,8 @@ namespace ExpenseTrackerWebAPI.Repositories
         public async Task CreateTotalAsync(Totals totals)
         {
             totals.IdTotals = Guid.NewGuid();
+            totals.CreatedDate = DateTime.Now;
+            totals.UpdatedOn = DateTime.Now;
             _context.Totals.Add(totals);
             await _context.SaveChangesAsync();
         }
@@ -58,6 +60,7 @@ namespace ExpenseTrackerWebAPI.Repositories
             var TotalsUpdated = _mapper.Map<Totals>(totals);
             TotalsUpdated.IdTotals = id;
 
+            totals.UpdatedOn = DateTime.Now;
             _context.Totals.Update(TotalsUpdated);
             await _context.SaveChangesAsync();
             return totals;
@@ -83,6 +86,7 @@ namespace ExpenseTrackerWebAPI.Repositories
             //    totalsFromDb.Name = totals.Name;
             //}
 
+            totals.UpdatedOn = DateTime.Now;
             _context.Totals.Update(totalsFromDb);
             await _context.SaveChangesAsync();
             return totals;
