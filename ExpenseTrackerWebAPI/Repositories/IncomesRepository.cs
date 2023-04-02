@@ -31,6 +31,8 @@ namespace ExpenseTrackerWebAPI.Repositories
         public async Task CreateIncomeAsync(Income income)
         {
             income.IdIncome = Guid.NewGuid();
+            income.CreatedDate = DateTime.Now;
+            income.UpdatedOn = DateTime.Now;
             _context.Income.Add(income);
             await _context.SaveChangesAsync();
         }
@@ -55,10 +57,11 @@ namespace ExpenseTrackerWebAPI.Repositories
                 return null;
             }
 
-            var IncomeUpdated = _mapper.Map<Income>(income);
-            IncomeUpdated.IdIncome = id;
+            var incomeUpdated = _mapper.Map<Income>(income);
+            incomeUpdated.IdIncome = id;
 
-            _context.Income.Update(IncomeUpdated);
+            incomeUpdated.UpdatedOn = DateTime.Now;
+            _context.Income.Update(incomeUpdated);
             await _context.SaveChangesAsync();
             return income;
         }
@@ -83,6 +86,7 @@ namespace ExpenseTrackerWebAPI.Repositories
                 incomeFromDb.Name = income.Name;
             }
 
+            incomeFromDb.UpdatedOn = DateTime.Now;
             _context.Income.Update(incomeFromDb);
             await _context.SaveChangesAsync();
             return income;

@@ -15,12 +15,16 @@ namespace ExpenseTrackerWebAPI.Controllers
     public class TotalsController : ControllerBase
     {
         private readonly ITotalsService _totalsService;
+        private readonly IIncomesService _incomesService;
+        private readonly IExpensesService _expensesService;
         private readonly ILogger<TotalsController> _logger;
 
-        public TotalsController(ITotalsService TotalsService, ILogger<TotalsController> logger)
+        public TotalsController(ITotalsService TotalsService, ILogger<TotalsController> logger, IIncomesService incomesService, IExpensesService expensesService)
         {
             _totalsService = TotalsService;
             _logger = logger;
+            _incomesService = incomesService;
+            _expensesService = expensesService;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllTotalsAsync()
@@ -67,16 +71,16 @@ namespace ExpenseTrackerWebAPI.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> PostTotalsAsync([FromBody] Totals Totals)
+        public async Task<IActionResult> PostTotalsAsync([FromBody] Totals totals)
         {
             try
             {
                 _logger.LogInformation("CreateTotals started");
-                if (Totals == null)
+                if (totals == null)
                 {
                     return BadRequest(ErrorMessagesEnum.BadRequest);
                 }
-                await _totalsService.CreateTotalAsync(Totals);
+                await _totalsService.CreateTotalAsync(totals);
                 return Ok(SuccessMessagesEnum.ElementSuccessfullyAdded);
             }
             catch (ModelValidationException ex)
@@ -113,17 +117,17 @@ namespace ExpenseTrackerWebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTotals([FromRoute] Guid id, [FromBody] CreateUpdateTotals Totals)
+        public async Task<IActionResult> PutTotals([FromRoute] Guid id, [FromBody] CreateUpdateTotals totals)
         {
             try
             {
                 _logger.LogInformation("Update Started");
-                if (Totals == null)
+                if (totals == null)
                 {
                     return BadRequest(ErrorMessagesEnum.BadRequest);
                 }
 
-                CreateUpdateTotals updatedTotals = await _totalsService.UpdateTotalAsync(id, Totals);
+                CreateUpdateTotals updatedTotals = await _totalsService.UpdateTotalAsync(id, totals);
                 if (updatedTotals == null)
                 {
                     return StatusCode((int)HttpStatusCode.NoContent, ErrorMessagesEnum.NoElementFound);
@@ -144,17 +148,17 @@ namespace ExpenseTrackerWebAPI.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchTotals([FromRoute] Guid id, [FromBody] PatchTotals Totals)
+        public async Task<IActionResult> PatchTotals([FromRoute] Guid id, [FromBody] PatchTotals totals)
         {
             try
             {
                 _logger.LogInformation("Update Started");
-                if (Totals == null)
+                if (totals == null)
                 {
                     return BadRequest(ErrorMessagesEnum.BadRequest);
                 }
 
-                PatchTotals updatedTotals = await _totalsService.UpdatePartiallyTotalAsync(id, Totals);
+                PatchTotals updatedTotals = await _totalsService.UpdatePartiallyTotalAsync(id, totals);
                 if (updatedTotals == null)
                 {
                     return StatusCode((int)HttpStatusCode.NoContent, ErrorMessagesEnum.NoElementFound);

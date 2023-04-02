@@ -2,6 +2,7 @@
 using ExpenseTrackerWebAPI.DTOs.PatchObjects;
 using ExpenseTrackerWebAPI.DTOs;
 using ExpenseTrackerWebAPI.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTrackerWebAPI.Services
 {
@@ -31,6 +32,13 @@ namespace ExpenseTrackerWebAPI.Services
         {
             //validation is added to the business layer (Services)
             // no need for validation for 2 entries on the table
+
+            var incomes = await _incomesRepository.GetIncomeAsync();
+            decimal sumI = incomes.Sum(x => x.Amount);
+            var expenses = await _expensesRepository.GetExpenseAsync();
+            decimal sumE = expenses.Sum(x => x.Amount);
+            var balance = sumI - sumE;
+            //Totals newTotals = new Totals() { TotalExpenses = sumE, TotalIncome = sumI, Balance = balance };
 
             await _totalsRepository.CreateTotalAsync(newTotal);
         }

@@ -26,8 +26,8 @@ builder.Services.AddTransient<IIncomesRepository, IncomesRepository>();
 builder.Services.AddTransient<IIncomesService, IncomesService>();
 builder.Services.AddTransient<IIncomeTypesRepository, IncomeTypesRepository>();
 builder.Services.AddTransient<IIncomeTypesService, IncomeTypesService>();
-//builder.Services.AddTransient<ITotalsRepository, TotalsRepository>();
-//builder.Services.AddTransient<ITotalsSerivce, TotalsSerivce>();
+builder.Services.AddTransient<ITotalsRepository, TotalsRepository>();
+builder.Services.AddTransient<ITotalsService, TotalsService>();
 
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

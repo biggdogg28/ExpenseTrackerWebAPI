@@ -31,6 +31,8 @@ namespace ExpenseTrackerWebAPI.Repositories
         public async Task CreateExpenseAsync(Expense expense)
         {
             expense.IdExpense = Guid.NewGuid();
+            expense.CreatedDate = DateTime.Now;
+            expense.UpdatedOn = DateTime.Now;
             _context.Expenses.Add(expense);
             await _context.SaveChangesAsync();
         }
@@ -58,6 +60,7 @@ namespace ExpenseTrackerWebAPI.Repositories
             var expenseUpdated = _mapper.Map<Expense>(expense);
             expenseUpdated.IdExpense = id;
 
+            expenseUpdated.UpdatedOn = DateTime.Now;
             _context.Expenses.Update(expenseUpdated);
             await _context.SaveChangesAsync();
             return expense;
@@ -83,6 +86,7 @@ namespace ExpenseTrackerWebAPI.Repositories
                 expenseFromDb.Notes = expense.Notes;
             }
 
+            expenseFromDb.UpdatedOn = DateTime.Now;
             _context.Expenses.Update(expenseFromDb);
             await _context.SaveChangesAsync();
             return expense;

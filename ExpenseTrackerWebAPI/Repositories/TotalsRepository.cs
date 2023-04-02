@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTrackerWebAPI.Repositories
 {
-    public class TotalsRepository
+    public class TotalsRepository : ITotalsRepository
     {
         private readonly ExpenseTrackerDataContext _context;
 
@@ -18,26 +18,26 @@ namespace ExpenseTrackerWebAPI.Repositories
             _context = context;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<Totals>> GetTotalssAsync()
+        public async Task<IEnumerable<Totals>> GetTotalAsync()
         {
             return await _context.Totals.ToListAsync();
         }
 
-        public async Task<Totals> GetTotalsByIdAsync(Guid id)
+        public async Task<Totals> GetTotalByIdAsync(Guid id)
         {
             return await _context.Totals.SingleOrDefaultAsync(l => l.IdTotals == id);
         }
 
-        public async Task CreateTotalsAsync(Totals totals)
+        public async Task CreateTotalAsync(Totals totals)
         {
             totals.IdTotals = Guid.NewGuid();
             _context.Totals.Add(totals);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> DeleteTotalsByIdAsync(Guid id)
+        public async Task<bool> DeleteTotalByIdAsync(Guid id)
         {
-            Totals totals = await GetTotalsByIdAsync(id);
+            Totals totals = await GetTotalByIdAsync(id);
             if (totals == null)
             {
                 return false;
@@ -48,7 +48,7 @@ namespace ExpenseTrackerWebAPI.Repositories
             return true;
         }
 
-        public async Task<CreateUpdateTotals> UpdateTotalsAsync(Guid id, CreateUpdateTotals totals)
+        public async Task<CreateUpdateTotals> UpdateTotalAsync(Guid id, CreateUpdateTotals totals)
         {
             if (!await ExistTotalsAsync(id))
             {
@@ -69,9 +69,9 @@ namespace ExpenseTrackerWebAPI.Repositories
             return await _context.Totals.CountAsync(l => l.IdTotals == id) > 0;
         }
 
-        public async Task<PatchTotals> UpdatePartiallyTotalsAsync(Guid id, PatchTotals totals)
+        public async Task<PatchTotals> UpdatePartiallyTotalAsync(Guid id, PatchTotals totals)
         {
-            var totalsFromDb = await GetTotalsByIdAsync(id);
+            var totalsFromDb = await GetTotalByIdAsync(id);
 
             if (totalsFromDb == null)
             {
