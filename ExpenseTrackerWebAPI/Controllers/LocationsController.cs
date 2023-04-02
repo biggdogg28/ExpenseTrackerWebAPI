@@ -4,6 +4,8 @@ using ExpenseTrackerWebAPI.DTOs.PatchObjects;
 using ExpenseTrackerWebAPI.Helpers;
 using ExpenseTrackerWebAPI.Models;
 using ExpenseTrackerWebAPI.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -67,7 +69,7 @@ namespace ExpenseTrackerWebAPI.Controllers
         }
 
         [HttpPost]
-
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> PostLocationAsync([FromBody] Location location)
         {
             try
@@ -94,6 +96,7 @@ namespace ExpenseTrackerWebAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteLocationAsync([FromRoute] Guid id)
         {
             try
@@ -114,6 +117,7 @@ namespace ExpenseTrackerWebAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> PutLocation([FromRoute] Guid id, [FromBody] CreateUpdateLocation location)
         {
             try
@@ -145,6 +149,7 @@ namespace ExpenseTrackerWebAPI.Controllers
         }
 
         [HttpPatch("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> PatchLocation([FromRoute] Guid id, [FromBody] PatchLocation location)
         {
             try

@@ -7,11 +7,14 @@ using ExpenseTrackerWebAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExpenseTrackerWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ExpenseCategoriesController : ControllerBase
     {
         private readonly IExpenseCategoriesService _expenseCategoriesService;
