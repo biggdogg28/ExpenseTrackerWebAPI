@@ -5,8 +5,8 @@ namespace ExpenseTrackerWebAPI.Authentication
     public class AuthenticateRequest
     {
         [Required]
-        public Guid Username { get; set; } //IdMember - tabela Member
+        public Guid Username { get; set; } //IdUser - tabela Users
         [Required]
-        public string Password { get; set; } //name - tabela Member
+        public string Password { get; set; } //Username - tabela Users
     }
 }

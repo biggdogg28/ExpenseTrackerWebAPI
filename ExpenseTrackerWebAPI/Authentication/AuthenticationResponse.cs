@@ -7,14 +7,14 @@ namespace ExpenseTrackerWebAPI.Authentication
 {
     public class AuthenticationResponse
     {
-        public Guid IdLocation { get; set; }
-        public string Name { get; set; }
+        public Guid IdUser { get; set; }
+        public string Username { get; set; }
         public string Token { get; set; }
 
-        public AuthenticationResponse(Location user, string token)
+        public AuthenticationResponse(Users user, string token)
         {
-            IdLocation = user.IdLocation;
-            Name = user.Name;
+            IdUser = user.IdUser;
+            Username = user.Username;
             Token = token;
         }
     }

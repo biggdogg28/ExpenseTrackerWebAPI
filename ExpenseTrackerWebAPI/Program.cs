@@ -64,6 +64,8 @@ builder.Services.AddTransient<IIncomeTypesRepository, IncomeTypesRepository>();
 builder.Services.AddTransient<IIncomeTypesService, IncomeTypesService>();
 builder.Services.AddTransient<ITotalsRepository, TotalsRepository>();
 builder.Services.AddTransient<ITotalsService, TotalsService>();
+builder.Services.AddTransient<IUsersRepository, UsersRepository>();
+builder.Services.AddTransient<IUsersService, UsersService>();
 builder.Services.AddTransient<IUserService, UserService>();
 
 

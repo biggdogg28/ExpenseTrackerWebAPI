@@ -20,7 +20,7 @@ namespace ExpenseTrackerWebAPI.Services.UserService
         }
         public AuthenticationResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _context.Location.SingleOrDefault(x => x.IdLocation == model.Username && x.Name == model.Password);
+            var user = _context.Users.SingleOrDefault(x => x.IdUser == model.Username && x.Username == model.Password);
 
             //return null if user not found
             if (user == null) return null;
@@ -31,7 +31,7 @@ namespace ExpenseTrackerWebAPI.Services.UserService
             return new AuthenticationResponse(user, token);
         }
         // helper methods
-        private string generateJwtToken(Location user)
+        private string generateJwtToken(Users user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("Authentication:Secret")));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

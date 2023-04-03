@@ -26,6 +26,7 @@ namespace ExpenseTrackerWebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetAllLocationsAsync()
         {
             try
@@ -48,6 +49,7 @@ namespace ExpenseTrackerWebAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetLocationAsync([FromRoute] Guid id)
         {
             try
